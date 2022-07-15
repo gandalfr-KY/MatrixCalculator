@@ -1,80 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
+<html>
   <head>
-    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
-    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
-    <title>PyFuck Playground</title>
+    <title>
+      いぇい
+    </title>
   </head>
-
   <body>
-    <div class="text-center">
-      <h1 class="text-3xl font-bold text-gray-800 m-8">PyFuck Playground</h1>
-    </div>
-    <main class="container mx-auto text-center flex flex-col">
-      <textarea id="python-script" class="container mx-auto border border-gray-300 rounded p-1 m-2 focus:border-blue-600 w-11/12 md:w-4/5 lg:w-2/3" placeholder="Enter your Python Payload!">__import__("os").system("ls")</textarea>
-      <py-button id="pyfuck-button" label="Change PyFuck" styling="p-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:ring"></py-button>
-      <div id="pyfuck-script" class="container mx-auto break-all overflow-y-scroll text-left border border-gray-300 rounded p-1 m-2 w-11/12 md:w-4/5 lg:w-2/3 h-64">
-        <span class="text-gray-400">PyFuck Script</span>
-      </div>
-    </main>
-    <py-env>
-      - pandas
-      - requests
-    </py-env>
-    <py-script>
-      def make_pyfuck(*ags, **kwgs):
-        import requests
-        import json
-        from pprint import pprint
-        import pandas as pd
-
-        pyscript.write('pyfuck-script', "b")
-        json_open = open('./recipe.json', 'r')
-        pyscript.write('pyfuck-script', "b")
-        json_data = json.load(json_open)
-        pyscript.write('pyfuck-script', "b")
-        
-        # mediumカテゴリの親カテゴリの辞書
-        parent_dict = {}
-        
-        df = pd.DataFrame(columns=['category1','category2','category3','categoryId','categoryName'])
-        
-        # 大カテゴリ
-        for category in json_data['result']['large']:
-            df_append = pd.DataFrame({'category1':[category['categoryId']],'category2':[""],'category3':[""],'categoryId':[category['categoryId']],'categoryName':[category['categoryName']]})
-            df = pd.concat([df, df_append], ignore_index=True, axis=0)
-        
-        for category in json_data['result']['medium']:
-            df_append = pd.DataFrame({'category1':[category['parentCategoryId']],'category2':[category['categoryId']],'category3':[""],'categoryId':[str(category['parentCategoryId'])+"-"+str(category['categoryId'])],'categoryName':[category['categoryName']]})
-            df = pd.concat([df, df_append], ignore_index=True, axis=0)
-            parent_dict[str(category['categoryId'])] = category['parentCategoryId']
-        
-        # 小カテゴリ
-        for category in json_data['result']['small']:
-            df_append = pd.DataFrame({'category1':[parent_dict[category['parentCategoryId']]],'category2':[category['parentCategoryId']],'category3':[category['categoryId']],'categoryId':[parent_dict[category['parentCategoryId']]+"-"+str(category['parentCategoryId'])+"-"+str(category['categoryId'])],'categoryName':[category['categoryName']]})
-            df = pd.concat([df, df_append], ignore_index=True, axis=0)
-        
-        python_code = Element("python-script").element.value
-        
-        _query = 'categoryName.str.contains("' + python_code + '")'
-        df_keyword = df.query(_query, engine='python')
-        
-        res2=requests.get("https://app.rakuten.co.jp/services/api/Recipe/CategoryRanking/20170426?applicationId=1010500052754215147&categoryId="+ df_keyword.iloc[0,3] + "&elements=recipeTitle,recipeUrl,recipeMaterial")
-        
-        recipe_data=json.loads(res2.text)["result"]
-        
-        a=""
-        for recipe in recipe_data:
-            a+=recipe["recipeTitle"]+"\n"
-            a+=recipe["recipeUrl"]+"\n"
-            for material in recipe["recipeMaterial"]:
-                a+=material+" "
-            a+="\n\n"
-
-        pyscript.write('pyfuck-script', a)
-      
-      button = Element('pyfuck-button')
-      button.element.onclick = make_pyfuck
-    </py-script>
+    これはてすとだよ
   </body>
 </html>
