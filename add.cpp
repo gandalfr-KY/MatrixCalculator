@@ -3,7 +3,7 @@
 
 extern "C" {
     EMSCRIPTEN_KEEPALIVE
-    int add(int a, int b) {
+    int _add(int a, int b) {
         return a + b;
     }
 }
