@@ -1,15 +1,16 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple WASM Calculator</title>
+    <title>Vector Addition Calculator</title>
+    <link rel="stylesheet" type="text/css" href="/src/css/styles.css">
 </head>
 <body>
-    <input id="num1" type="number" placeholder="Enter first number">
-    <input id="num2" type="number" placeholder="Enter second number">
+    <input id="vecLength" type="number" placeholder="Enter vector length">
+    <button id="createInputsButton">Create inputs</button>
+    <div id="inputContainer"></div>
     <button id="calculateButton">Calculate</button>
     <p id="result"></p>
-    <script src="add.js"></script>
-    <script src="script.js"></script>
+    <script src="/build/addvec.js"></script>
+    <script src="/src/js/script.js"></script>
 </body>
 </html>
