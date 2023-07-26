@@ -98,7 +98,11 @@ class fraction {
         internal::simplify(numerator, denominator);
         num = numerator, den = denominator;
     }
-    fraction(const std::string& buf) {
+    fraction(const std::string& buf) { *this = buf; }
+    fraction() : num(0), den(1) {}
+
+    fraction &operator=(const fraction &a) = default;
+    fraction &operator=(const std::string &buf) {
         long long num_tmp = 0, den_tmp = 0;
         int i = (buf[0] == '-'), sz = buf.size();
         for (; i < sz && buf[i] != '/'; i++)
@@ -112,10 +116,8 @@ class fraction {
             num_tmp *= -1;
         internal::simplify(num_tmp, den_tmp);
         num = num_tmp, den = den_tmp;
+        return *this;
     }
-    fraction() : num(0), den(1) {}
-
-    fraction &operator=(const fraction &a) = default;
     fraction &operator+=(const fraction &a) { return *this = *this + a; }
     fraction &operator-=(const fraction &a) { return *this = *this - a; }
     fraction &operator*=(const fraction &a) { return *this = *this * a; }

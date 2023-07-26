@@ -5,7 +5,7 @@ body {
 }
 
 input[type=number] {
-    max-width: 300px;
+    max-width: 50px;
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -29,15 +29,4 @@ button {
 
 p {
     font-size: 20px;
-}
-
-/* 結果ボックスのスタイル */
-.result-box {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #f0f0f0; /* 背景色 */
-    border: 1px solid #ccc;    /* ボーダー */
-    color: #333;               /* テキストカラー */
-    font-size: 18px;           /* フォントサイズ */
-    font-weight: bold;         /* フォントの太さ */
 }

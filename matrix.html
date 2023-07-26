@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Matrix Operation Calculator</title>
+    <link rel="stylesheet" type="text/css" href="/src/css/base_styles.css">
+    <link rel="stylesheet" type="text/css" href="/src/css/resultbox.css">
+</head>
+<body>
+    <a href="index.html">目次ページへ戻る</a>
+    <h1>行列演算</h1>
+
+    <label for="matrixSize">サイズ:</label>
+    <input id="matrixSize" type="number" placeholder="Enter number of rows">
+
+    <button id="createInputsButton">Create Matrix Inputs</button>
+
+    <div id="inputContainer"></div>
+
+    <button id="calculateDetButton">determinant</button>
+
+    <div id="result" class="result-box"></div>
+
+    <button id="inverseButton">inverse</button>
+
+    <div id="matrixContainer"></div>
+
+    <script src="/build/matrix.js"></script>
+    <script src="/src/js/matrix.js"></script>
+    
+</body>
+</html>
