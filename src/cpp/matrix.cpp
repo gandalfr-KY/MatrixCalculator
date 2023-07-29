@@ -57,6 +57,9 @@ class matrix {
     matrix(int _H, int _W)
         : H(_H), W(_W), table(std::valarray<complex>(complex(0, 0), _W), _H) {}
 
+    int size_H() const { return H; }
+    int size_W() const { return W; }
+
     void row_swap(int i, int j) {
         assert(0 <= i && i < H);
         assert(0 <= j && j < H);
@@ -111,7 +114,7 @@ class matrix {
     }
 
     const complex& get(int h, int w) {
-        assert(0 <= h && h < H && 0 <= w && w <= W);
+        assert(0 <= h && h < H && 0 <= w && w < W);
         return table[h][w];
     }
 
@@ -142,6 +145,8 @@ EMSCRIPTEN_BINDINGS(matrix_module) {
         .constructor<>()
         .constructor<int, int>()
         .function("determinant", &matrix::determinant)
+        .function("Height", &matrix::size_H)
+        .function("Width", &matrix::size_W)
         .function("inverse", &matrix::inverse)
         .function("get", &matrix::get)
         .function("set", &matrix::set)
