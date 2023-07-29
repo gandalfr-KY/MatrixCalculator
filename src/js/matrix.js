@@ -34,12 +34,13 @@ document.getElementById('calculateDetButton').addEventListener('click', function
 
     for(let i = 0; i < size; i++) {
         for(let j = 0; j < size; j++) {
-            matrix.set(i, j, new Module.Fraction(document.getElementById(`matrixInput_${i}_${j}`).value));
+            const tmp = Module.stringToComplex(document.getElementById(`matrixInput_${i}_${j}`).value);
+            matrix.set(i, j, tmp);
         }
     }
 
     const result = matrix.determinant();
-    resultContainer.textContent = `Result: ${result.to_string()}`;
+    resultContainer.textContent = `Result: ${Module.complexToString(result)}`;
 
     matrix.delete();
 });
@@ -55,7 +56,8 @@ document.getElementById('inverseButton').addEventListener('click', function() {
 
     for(let i = 0; i < size; i++) {
         for(let j = 0; j < size; j++) {
-            matrix.set(i, j, new Module.Fraction(document.getElementById(`matrixInput_${i}_${j}`).value));
+            const tmp = Module.stringToComplex(document.getElementById(`matrixInput_${i}_${j}`).value);
+            matrix.set(i, j, tmp);
         }
     }
 
@@ -70,7 +72,7 @@ document.getElementById('inverseButton').addEventListener('click', function() {
             const input = document.createElement('input');
             input.setAttribute('type', 'text');
             input.setAttribute('size', '10');
-            input.value = inv.get(i, j).to_string();
+            input.value = Module.complexToString(inv.get(i, j));
             input.readOnly = true;
             rowContainer.appendChild(input);
         }

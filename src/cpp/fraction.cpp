@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <numeric>
 
@@ -24,7 +26,8 @@ class fraction {
     }
 
     friend fraction operator+(const fraction &a, const fraction &b) {
-
+        assert(!(a.is_infinity() && b.is_infinity() &&
+                 a.num * b.num == -1)); // 不定形はダメ
         if (a.is_infinity()) {
             return a;
         } else if (b.is_infinity()) {
@@ -35,6 +38,8 @@ class fraction {
         }
     }
     friend fraction operator-(const fraction &a, const fraction &b) {
+        assert(!(a.is_infinity() && b.is_infinity() &&
+                 a.num * b.num == 1)); // 不定形はダメ
         if (a.is_infinity()) {
             return a;
         } else if (b.is_infinity()) {
@@ -45,6 +50,8 @@ class fraction {
         }
     }
     friend fraction operator*(const fraction &a, const fraction &b) {
+        assert(a.num != 0 || b.den != 0);
+        assert(a.den != 0 || b.num != 0);
         int gcd_tmp1 = std::gcd(a.num, b.den),
                   gcd_tmp2 = std::gcd(b.num, a.den);
         fraction ret;
@@ -53,6 +60,8 @@ class fraction {
         return ret;
     }
     friend fraction operator/(const fraction &a, const fraction &b) {
+        assert(a.num != 0 || b.num != 0);
+        assert(a.den != 0 || b.den != 0);
         int gcd_tmp1 = std::gcd(a.num, b.num),
                   gcd_tmp2 = std::gcd(b.den, a.den);
         fraction ret;
@@ -123,15 +132,6 @@ class fraction {
     fraction &operator*=(const fraction &a) { return *this = *this * a; }
     fraction &operator/=(const fraction &a) { return *this = *this / a; }
 
-    std::string to_string() const {
-        if (den == 0)
-            return num >= 0 ? "inf" : "-inf";
-        else if (den == 1)
-            return std::to_string(num);
-        else
-            return std::to_string(num) + '/' + std::to_string(den);
-    }
-
     fraction &raw_assign(int _num, int _den) {
         num = _num, den = _den;
         return *this;
@@ -150,6 +150,18 @@ class fraction {
     bool is_infinity() const { return (den == 0); }
 };
 
+namespace parser{
+
+std::string fraction_to_string(const fraction& a) {
+    if (a.denominator() == 0)
+        return a.numerator() >= 0 ? "inf" : "-inf";
+    else if (a.denominator() == 1)
+        return std::to_string(a.numerator());
+    else
+        return std::to_string(a.numerator()) + '/' + std::to_string(a.denominator());
+}
+};
+
 EMSCRIPTEN_BINDINGS(fraction_module) {
     emscripten::class_<fraction>("Fraction")
         .constructor<>()
@@ -163,6 +175,6 @@ EMSCRIPTEN_BINDINGS(fraction_module) {
         .function("abs", &fraction::abs)
         .function("inverse", &fraction::inverse)
         .function("is_infinity", &fraction::is_infinity)
-        .function("raw_assign", &fraction::raw_assign)
-        .function("to_string", &fraction::to_string);
+        .function("raw_assign", &fraction::raw_assign);
+    emscripten::function("fractionToString", &parser::fraction_to_string);
 }
