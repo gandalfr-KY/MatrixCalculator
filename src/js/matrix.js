@@ -20,11 +20,41 @@ document.getElementById('createInputsButton').addEventListener('click', function
             input.setAttribute('type', 'text');
             input.setAttribute('size', '10');
             input.setAttribute('placeholder', `Cell ${i}, ${j}`);
+
+            // Add keydown event listener to the input
+            input.addEventListener('keydown', function(e) {
+                if(e.key === "ArrowDown") {
+                    e.preventDefault();
+                    let nextInput = document.getElementById(`matrixInput_${Math.min(i + 1, size - 1)}_${j}`);
+                    if(nextInput) nextInput.focus();
+                }
+                else if(e.key === "ArrowUp") {
+                    e.preventDefault();
+                    let nextInput = document.getElementById(`matrixInput_${Math.max(i - 1, 0)}_${j}`);
+                    if(nextInput) nextInput.focus();
+                }
+                else if(e.key === "ArrowRight") {
+                    if (e.target.selectionStart === this.value.length) {
+                        e.preventDefault();
+                        let nextInput = document.getElementById(`matrixInput_${i}_${Math.min(j + 1, size - 1)}`);
+                        if(nextInput) nextInput.focus();
+                    }
+                }
+                else if(e.key === "ArrowLeft") {
+                    if (e.target.selectionStart === 0) {
+                        e.preventDefault();
+                        let nextInput = document.getElementById(`matrixInput_${i}_${Math.max(j - 1, 0)}`);
+                        if(nextInput) nextInput.focus();
+                    }
+                }
+            });
+
             rowContainer.appendChild(input);
         }
         container.appendChild(rowContainer);
     }
 });
+
 
 document.getElementById('calculateButton').addEventListener('click', function() {
     const size = parseInt(document.getElementById('matrixSize').value);
@@ -44,7 +74,7 @@ document.getElementById('calculateButton').addEventListener('click', function() 
         }
 
         const result = matrix.determinant();
-        resultContainer.textContent = `Calculate: ${Module.complexToString(result)}`;
+        resultContainer.textContent = `Determinant: ${Module.complexToString(result)}`;
 
         const inv = matrix.inverse();
         if (inv.Height() != 0) {
