@@ -63,43 +63,45 @@ document.getElementById('calculateButton').addEventListener('click', function() 
     // Clear previous results
     matrixContainer.innerHTML = '';
 
+    let i = 0, j = 0;
+    const matrix = new Module.Matrix(size, size);
     try {
-        const matrix = new Module.Matrix(size, size);
-
-        for(let i = 0; i < size; i++) {
-            for(let j = 0; j < size; j++) {
+        for(i = 0; i < size; i++) {
+            for(j = 0; j < size; j++) {
                 const tmp = Module.stringToComplex(document.getElementById(`matrixInput_${i}_${j}`).value);
                 matrix.set(i, j, tmp);
             }
         }
-
-        const result = matrix.determinant();
-        resultContainer.textContent = `Determinant: ${Module.complexToString(result)}`;
-
-        const inv = matrix.inverse();
-        if (inv.Height() != 0) {
-            for(let i = 0; i < size; i++) {
-                const rowContainer = document.createElement('div');
-                rowContainer.style.display = 'flex';
-                
-                for(let j = 0; j < size; j++) {
-                    const input = document.createElement('input');
-                    input.setAttribute('type', 'text');
-                    input.setAttribute('size', '10');
-                    input.value = Module.complexToString(inv.get(i, j));
-                    input.readOnly = true;
-                    rowContainer.appendChild(input);
-                }
-                matrixContainer.appendChild(rowContainer);
-            }
-        }
-        
-        matrix.delete();
-
+    
     } catch (e) {
         // If an error occurs, display an alert with the error message
-        alert("入力値が正しくありません。");
+        alert(`Cell (${i}, ${j}) の入力値が正しくありません。`);
     }
+    
+
+    const result = matrix.determinant();
+    resultContainer.textContent = `Determinant: ${Module.complexToString(result)}`;
+
+    const inv = matrix.inverse();
+    if (inv.Height() != 0) {
+        for(let i = 0; i < size; i++) {
+            const rowContainer = document.createElement('div');
+            rowContainer.style.display = 'flex';
+            
+            for(let j = 0; j < size; j++) {
+                const input = document.createElement('input');
+                input.setAttribute('type', 'text');
+                input.setAttribute('size', '10');
+                input.value = Module.complexToString(inv.get(i, j));
+                input.readOnly = true;
+                rowContainer.appendChild(input);
+            }
+            matrixContainer.appendChild(rowContainer);
+        }
+    }
+    
+    matrix.delete();
+
 });
 
 
