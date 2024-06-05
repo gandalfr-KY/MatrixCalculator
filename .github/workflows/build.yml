@@ -24,15 +24,7 @@ jobs:
       run: |
         source emsdk/emsdk_env.sh
         emcc src/cpp/fraction.cpp -o build/fraction.js -lembind -std=c++17 -s WASM=2
-
-    - name: Build complex module
-      run: |
-        source emsdk/emsdk_env.sh
         emcc src/cpp/complex.cpp -o build/complex.js -lembind -std=c++17 -s WASM=2
-
-    - name: Build matrix module
-      run: |
-        source emsdk/emsdk_env.sh
         emcc src/cpp/matrix.cpp -o build/matrix.js -lembind -std=c++17 -s WASM=2
 
     - name: Deploy to GitHub Pages
@@ -41,4 +33,3 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build
         publish_branch: gh-pages
-        
